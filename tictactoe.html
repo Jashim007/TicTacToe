@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+            fontFamily: {
+              Dosis: ["Dosis", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <title>TicTacToe Game</title>
+  </head>
+  <body>
+    <div class="h-screen w-screen bg-orange-100">
+      <div
+        class="header w-full h-[65px] bg-orange-300 p-3 text-4xl text-white font-Dosis"
+      >
+        TicTacToe Game
+      </div>
+      <div
+        class="h-1/6 flex items-center justify-evenly text-3xl font-Dosis text-gray-700"
+      >
+        <div
+          class="p-4 font-bold rounded-md border-2 border-b-orange-300 border-transparent"
+          id="Player1"
+        >
+          Player 1
+        </div>
+        <div
+          class="p-4 font-bold rounded-md border-2 border-transparent"
+          id="Player2"
+        >
+          Player 2
+        </div>
+      </div>
+      <div class="container h-1/2 w-full flex items-center justify-center">
+        <div
+          class="grid grid-cols-3 grid-rows-3 gap-2 bg-white rounded-md h-3/4 w-1/4"
+          id="game_container"
+        >
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="first"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="second"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="third"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="fourth"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="fifth"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="sixth"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="seventh"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="eighth"
+          ></div>
+          <div
+            class="bg-orange-100 rounded-sm p-2 flex items-center justify-center"
+            id="nine"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let gameArray = [
+      [-1, -1, -1],
+      [-1, -1, -1],
+      [-1, -1, -1],
+    ];
+
+    let first = document.getElementById("first");
+    let second = document.getElementById("second");
+    let third = document.getElementById("third");
+    let fourth = document.getElementById("fourth");
+    let fifth = document.getElementById("fifth");
+    let sixth = document.getElementById("sixth");
+    let seventh = document.getElementById("seventh");
+    let eighth = document.getElementById("eighth");
+    let nine = document.getElementById("nine");
+
+    console.log(first.innerHTML);
+
+    function returnGameElement() {
+      let x = -1;
+
+      let obj = { gameElementType: null, player: -1 };
+
+      return function () {
+        if (x == -1) {
+          x = 0;
+          return {
+            gameElement: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle"><circle cx="12" cy="12" r="10"></circle></svg>`,
+            player: 2,
+          };
+        } else if (x == 0) {
+          x = 1;
+          return {
+            gameElement: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+            player: 1,
+          };
+        } else if (x == 1) {
+          x = 0;
+          return {
+            gameElement: `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle"><circle cx="12" cy="12" r="10"></circle></svg>`,
+            player: 2,
+          };
+        }
+      };
+    }
+    let fetchGameElement = returnGameElement();
+
+    function updatePlayerBorder(player) {
+      if (player == 1) {
+        document.getElementById("Player1").classList.add("border-b-orange-300");
+        document
+          .getElementById("Player2")
+          .classList.remove("border-b-orange-300");
+      } else {
+        document.getElementById("Player2").classList.add("border-b-orange-300");
+        document
+          .getElementById("Player1")
+          .classList.remove("border-b-orange-300");
+      }
+    }
+
+    first.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (first.innerHTML == null || first.innerHTML == "") {
+        first.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[0][0] == -1) {
+          gameArray[0][0] = gameElement;
+        }
+      }
+    });
+    second.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (second.innerHTML == null || second.innerHTML == "") {
+        second.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[0][1] == -1) {
+          gameArray[0][1] = gameElement;
+        }
+      }
+    });
+    third.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (third.innerHTML == null || third.innerHTML == "") {
+        third.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[0][2] == -1) {
+          gameArray[0][2] = gameElement;
+        }
+      }
+    });
+    fourth.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (fourth.innerHTML == null || fourth.innerHTML == "") {
+        fourth.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[1][0] == -1) {
+          gameArray[1][0] = gameElement;
+        }
+      }
+    });
+    fifth.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (fifth.innerHTML == null || fifth.innerHTML == "") {
+        fifth.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[1][1] == -1) {
+          gameArray[1][1] = gameElement;
+        }
+      }
+    });
+    sixth.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (sixth.innerHTML == null || sixth.innerHTML == "") {
+        sixth.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[1][2] == -1) {
+          gameArray[1][2] = gameElement;
+        }
+      }
+    });
+    seventh.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (seventh.innerHTML == null || seventh.innerHTML == "") {
+        seventh.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[2][0] == -1) {
+          gameArray[2][0] = gameElement;
+        }
+      }
+    });
+    eighth.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (eighth.innerHTML == null || eighth.innerHTML == "") {
+        eighth.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        if (gameArray[2][1] == -1) {
+          gameArray[2][1] = gameElement;
+        }
+      }
+    });
+    nine.addEventListener("click", () => {
+      let { gameElement, player } = fetchGameElement();
+      if (nine.innerHTML == null || nine.innerHTML == "") {
+        nine.innerHTML = gameElement;
+        updatePlayerBorder(player);
+        console.log("Hiiee");
+        if (gameArray[2][2] == -1) {
+          gameArray[2][2] = gameElement;
+        }
+      }
+    });
+
+    function tictactoe(arr) {
+      let puzzleSolved = false;
+      for (let i = 0; i < arr.length; i++) {
+        let j = 0;
+        if (
+          arr[i][j] == arr[i][j + 1] &&
+          arr[i][j] == arr[i][j + 2] &&
+          arr[i][j] != -1
+        ) {
+          puzzleSolved = true;
+        } else if (
+          arr[j][i] == arr[j + 1][i] &&
+          arr[j + 1][i] == arr[j + 2][i] &&
+          arr[j][i] != -1
+        ) {
+          puzzleSolved = true;
+        }
+      }
+      if (puzzleSolved == false) {
+        let i = 0;
+        if (
+          arr[i][i] == arr[i + 1][i + 1] &&
+          arr[i + 1][i + 1] == arr[i + 2][i + 2] &&
+          arr[i][i] != -1
+        ) {
+          puzzleSolved = true;
+        } else if (
+          arr[i][i + 2] == arr[i + 1][i + 1] &&
+          arr[i][i + 2] == arr[i + 2][i] &&
+          arr[i][i + 2] != -1
+        ) {
+          puzzleSolved = true;
+        }
+      }
+      return puzzleSolved;
+    }
+    document.getElementById("game_container").addEventListener("click", () => {
+      if (tictactoe(gameArray)) {
+        console.log("Hello");
+        let { gameElement, player } = fetchGameElement();
+        console.log(player);
+      }
+    });
+  </script>
+</html>
