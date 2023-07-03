@@ -224,8 +224,8 @@
       }
       let element = document.getElementById(e.target.id);
 
-      let { gameElement, player, gameArrayElement } = fetchGameElement();
       if (element.innerHTML == null || element.innerHTML == "") {
+        let { gameElement, player, gameArrayElement } = fetchGameElement();
         element.innerHTML = gameElement;
         updatePlayerBorder(player);
         if (gameArray[r][c] != "o" && gameArray[r][c] != "x") {
